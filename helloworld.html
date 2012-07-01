@@ -1,0 +1,34 @@
+<html>
+  <body>
+    {% for greeting in greetings %}
+      {% if greeting.author %}
+        <b>{{ greeting.author.nickname }}</b> wrote:
+      {% else %}
+        An anonymous person wrote:
+      {% endif %}
+      <blockquote>{{ greeting.content|escape }}</blockquote>
+    {% endfor %}
+
+    <form action="/sign" method="post">
+      <div><textarea name="content" rows="3" cols="60"></textarea></div>
+      <div><input type="submit" value="Sign Guestbook"></div>
+    </form>
+
+    <a href="{{ url }}">{{ url_linktext }}</a>
+
+	{% for q in questions %}
+      <div>{{ q.text }}</div>
+      <div>
+	  {% for a in q.answers %}
+	  <div>
+		<label for="answer-{{ q.id }}-{{ a }}">
+			<input id="answer-{{ q.id }}-{{ a }}" type="checkbox" value="{{ a }}" />
+			{{ a }}
+		</label>
+	  </div>
+	  {% endfor %}
+	  </div>
+    {% endfor %}
+	
+  </body>
+</html>
