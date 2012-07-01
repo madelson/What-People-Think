@@ -2,17 +2,8 @@ from google.appengine.ext import db
 import random;
 
 class Answerer(db.Model):
-	questions_answered = db.ListProperty(int);
+	questions_answered = db.StringListProperty();
 	answers = db.StringListProperty();
-	
-	@staticmethod
-	def make_key(id):
-		key = db.Key.from_path(Answerer.kind(), id);
-		return key;
-
-	def __init__(self, id, **kwds):
-		kwds['key'] = Answerer.make_key(id);
-		super(Answerer, self).__init__(**kwds);
 
 class CounterShard(db.Model):
 	count = db.IntegerProperty(required=True, default=0);

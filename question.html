@@ -1,0 +1,23 @@
+<div class="question-display">
+	<h2 class="title">{{ question.text }}</h2>
+	<div class="question-answer">
+		<form action="/answer", method="post">
+			<!-- hidden input to transmit the question id -->
+			<input type="hidden" name="question", value="{{ question.id }}" />
+			
+			{% for answer in question.answers %}
+				<div class="answer">
+					<label for="answer-{{ question.id }}-{{ forloop.counter0 }}">
+						<input id="answer-{{ question.id }}-{{ forloop.counter0 }}"
+							   type="radio" 
+							   name="answer" 
+							   value="{{ forloop.counter0 }}" 
+						/>
+						{{ answer }}
+					</label>
+				</div>
+			{% endfor %}
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+</div>
