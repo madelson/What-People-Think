@@ -1,0 +1,10 @@
+<div class="answer-display">
+	<h2 class="title">{{ question.text }}</h2>
+	<div>
+		{% for result in results %}
+			<div class="result-info">
+				{{ result.answer }}: {{ result.vote_count }} votes ({{ result.percent }}%)
+			</div>
+		{% endfor %}
+	</div>
+</div>
