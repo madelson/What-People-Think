@@ -11,6 +11,11 @@ class AnswerOrderType:
 	Constant = 'constant';
 	Shuffle = 'shuffle';
 	RandomReverse = 'randomReverse';
+
+class Answer:
+	def __init__(self, index, value):
+		self.index = index;
+		self.value = value;
 	
 class Question(object):
 	def __init__(self, id, text, answers=None, type=QuestionType.BestAnswer, tags=[], answer_order_type=AnswerOrderType.Shuffle):
@@ -39,7 +44,7 @@ class Question(object):
 		
 	@property
 	def randomized_answers(self):
-		answers_and_indices = zip(self.answers, range(0, len(self.answers)));
+		answers_and_indices = [Answer(index, value) for index, value in zip(range(0, len(self.answers)), self.answers)];
 		if self.answer_order_type == AnswerOrderType.Constant:
 			pass;
 		elif self.answer_order_type == AnswerOrderType.Shuffle:
