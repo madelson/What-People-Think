@@ -26,7 +26,7 @@ class QuestionPage(webapp.RequestHandler):
 		# determine the question to ask
 		
 		# if the user has answered all questions, redirect
-		if len(answerer.questions_answered) == len(question.all):
+		if len(answerer.questions_answered) == len(question.all()):
 			self.redirect();
 			return;
 				
@@ -36,17 +36,17 @@ class QuestionPage(webapp.RequestHandler):
 		if requested_question in answerer.questions_answered:
 			self.redirect();
 			return;
-		if requested_question in question.all_by_id:
+		if requested_question in question.all_by_id():
 			question_to_ask = requested_question;
 		else: # otherwise, choose a random question
 			already_answered = True;
 			while already_answered:
-				question_to_ask = question.all[random.randint(0, len(question.all) - 1)].id;
+				question_to_ask = question.all()[random.randint(0, len(question.all()) - 1)].id;
 				already_answered = question_to_ask in answerer.questions_answered;					
 			
 		template_values = {
 			'template': handlers.template_path('question'),
-			'question': question.all_by_id[question_to_ask],
+			'question': question.all_by_id()[question_to_ask],
 			'dump': {
 				'id': handlers.get_user_id(self.request),
 				'key2': answerer.key().name()
@@ -68,9 +68,9 @@ class QuestionPage(webapp.RequestHandler):
 		# otherwise, record the answer and redirect to the answer page
 		question_id = self.request.get('question');
 		answer = self.request.get('answer');		
-		if (question_id in question.all_by_id 
+		if (question_id in question.all_by_id() 
 			and question_id not in answerer.questions_answered
-			and 0 <= int(answer) < len(question.all_by_id[question_id].answers)):
+			and 0 <= int(answer) < len(question.all_by_id()[question_id].answers)):
 			# update the answerer
 			answerer.questions_answered.append(question_id);
 			answerer.answers.append(answer);
