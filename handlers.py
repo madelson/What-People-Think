@@ -15,3 +15,8 @@ def get_user_id(request):
 def template_path(name):
 	path = os.path.join(os.path.dirname(__file__), name + '.html');
 	return path;
+	
+def bad_request_error(handler, message):
+	handler.error(404);
+	handler.response.out.write(message);
+	return None;
