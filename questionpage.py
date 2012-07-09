@@ -35,7 +35,7 @@ class QuestionPage(webapp.RequestHandler):
 	
 		# error out on an invalid id since that's an invalid URL
 		if question_id not in question.all_by_id():
-			return handlers.bad_request_error('Invalid question identifier "%s"' % question_id);
+			return handlers.bad_request_error(self, 'Invalid question identifier "%s"' % question_id);
 	
 		# determine the question to ask
 		
@@ -61,17 +61,17 @@ class QuestionPage(webapp.RequestHandler):
 		path = handlers.template_path('index');
 		self.response.out.write(template.render(path, dict(common_values.items() + template_values.items())));
 	
-	def post(self, question_id):	
+	def post(self, question_id):
 		# check the question
 		if question_id not in question.all_by_id():
-			return handlers.bad_request_error('Invalid question "%s"' % question_id);
+			return handlers.bad_request_error(self, 'Invalid question "%s"' % question_id);
 
 		id = handlers.get_user_id(self.request);
 		answerer = entities.Answerer.get_by_key_name(id);
 		
 		# check the answerer
 		if answerer is None:
-			return handlers.bad_request_error('Could not identify answerer "%s"' % id);
+			return handlers.bad_request_error(self, 'Could not identify answerer "%s"' % id);
 		# if they've already answered, just redirect
 		if question_id in answerer.questions_answered:
 			self.redirect('/result/%s' % question_id);
@@ -79,7 +79,7 @@ class QuestionPage(webapp.RequestHandler):
 		# check the answer
 		answer = self.request.get('answer');		
 		if int(answer) not in range(0, len(question.all_by_id()[question_id].answers)):
-			return handlers.bad_request_error('Invalid answer "%s" for question "%s"' % (answer, question_id)); 
+			return handlers.bad_request_error(self, 'Invalid answer "%s" for question "%s"' % (answer, question_id)); 
 		
 		# otherwise, record the answer and redirect to the answer page
 		# update the answerer

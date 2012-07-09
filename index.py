@@ -18,10 +18,9 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 				
 application = webapp.WSGIApplication([
-	('/', questionpage.QuestionPage),
-	('/ask(\d*)', questionpage.QuestionPage),
-	('/answer', questionpage.QuestionPage),
-	('/result/(\d+)', resultpage.ResultPage)
+	('/(\w*)', questionpage.QuestionPage),
+	('/ask/(\w*)', questionpage.QuestionPage),
+	('/result/(\w+)', resultpage.ResultPage)
 ], debug=True)
 
 def main():

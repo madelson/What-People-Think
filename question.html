@@ -1,9 +1,7 @@
 <div class="question-display">
 	<h2 class="title">{{ question.text }}</h2>
 	<div class="question-answer">
-		<form action="/answer", method="post">
-			<!-- hidden input to transmit the question id -->
-			<input type="hidden" name="question", value="{{ question.id }}" />			
+		<form method="post">
 			{% if question.is_best_answer %}
 				{% for answer in question.randomized_answers %}
 					<div class="answer">
